@@ -1,33 +1,63 @@
 package com.wanna_wanna.server.model;
 
+import java.util.UUID;
+
 import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "users")
 public class User {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long uid;
+  @Column(name = "uid")
+  private UUID uid;
+
+  @Column(name = "names")
   private String names;
+
+  @Column(name = "notify_on_list_shared")
   private boolean notifyOnListShared = true;
+
+  @Column(name = "notify_on_list_items_update")
   private boolean notifyOnListItemsUpdate = true;
+
+  @Column(name = "notify_on_item_state_update")
   private boolean notifyOnItemStateUpdate = true;
+
+  @Column(name = "expo_push_token")
   private String expoPushToken;
+
+  @Column(name = "device_push_token")
   private String devicePushToken;
+
+  @Column(name = "deleted")
   private boolean deleted = false;
+
+  @Column(name = "created_at")
   private Date createdAt;
+
+  @Column(name = "updated_at")
   private Date updatedAt;
 
   // Constructors
   public User() {
   }
 
-  public User(String names, boolean notifyOnListShared, boolean notifyOnListItemsUpdate,
-      boolean notifyOnItemStateUpdate, String expoPushToken, String devicePushToken) {
+  public User(
+      String names,
+      boolean notifyOnListShared,
+      boolean notifyOnListItemsUpdate,
+      boolean notifyOnItemStateUpdate,
+      String expoPushToken,
+      String devicePushToken) {
     this.names = names;
     this.notifyOnListShared = notifyOnListShared;
     this.notifyOnListItemsUpdate = notifyOnListItemsUpdate;
@@ -40,7 +70,7 @@ public class User {
   }
 
   // Getters and Setters
-  public Long getId() {
+  public UUID getId() {
     return uid;
   }
 
