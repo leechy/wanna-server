@@ -1,39 +1,32 @@
 package com.wanna_wanna.server.controller;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/error")
 public class CustomErrorController implements ErrorController {
 
-  public ResponseEntity<Map<String, Object>> handleError(HttpServletRequest request) {
-    Map<String, Object> response = new HashMap<>();
-    HttpStatus status = getStatus(request);
+  private final ErrorAttributes errorAttributes;
 
-    response.put("status", status.value());
-    response.put("error", status.getReasonPhrase());
-    response.put("message", "An error occurred");
-
-    return new ResponseEntity<>(response, status);
+  public CustomErrorController(ErrorAttributes errorAttributes) {
+    this.errorAttributes = errorAttributes;
   }
 
-  private HttpStatus getStatus(HttpServletRequest request) {
-    Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-    if (statusCode != null) {
-      try {
-        return HttpStatus.valueOf(statusCode);
-      } catch (Exception ex) {
-        // Ignore
-      }
-    }
-    return HttpStatus.INTERNAL_SERVER_ERROR;
+  @RequestMapping("/error")
+  public ResponseEntity<Map<String, Object>> handleError(WebRequest webRequest) {
+    Map<String, Object> attributes = errorAttributes.getErrorAttributes(
+        webRequest,
+        ErrorAttributeOptions.defaults());
+
+    HttpStatus status = HttpStatus.valueOf((Integer) attributes.get("status"));
+    return new ResponseEntity<>(attributes, status);
   }
 }
