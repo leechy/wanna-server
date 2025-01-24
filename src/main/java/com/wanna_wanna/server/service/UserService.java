@@ -2,6 +2,7 @@ package com.wanna_wanna.server.service;
 
 import com.wanna_wanna.server.dto.UserDTO;
 import com.wanna_wanna.server.dto.UserWithListsDTO;
+import com.wanna_wanna.server.exception.UserNotFoundException;
 import com.wanna_wanna.server.model.WUser;
 import com.wanna_wanna.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,20 @@ public class UserService {
   }
 
   public Optional<UserDTO> getUserById(UUID id) {
-    return userRepository.findById(id).map(this::convertToUserDTO);
+    final Optional<UserDTO> user = userRepository.findById(id).map(this::convertToUserDTO);
+    if (!user.isPresent()) {
+      throw new UserNotFoundException("User with id " + id + " not found.");
+    }
+    return user;
   }
 
   public Set<UserWithListsDTO> getListsByUserId(UUID id) {
-    return userRepository.findById(id)
-        .map(this::convertToUserWithListsDTO)
+    final Optional<UserWithListsDTO> user = userRepository.findById(id).map(this::convertToUserWithListsDTO);
+    if (!user.isPresent()) {
+      throw new UserNotFoundException("User with id " + id + " not found.");
+    }
+
+    return user
         .map(java.util.Collections::singleton)
         .orElse(java.util.Collections.emptySet());
   }

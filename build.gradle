@@ -13,6 +13,8 @@ java {
 	}
 }
 
+apply plugin: 'war'
+
 repositories {
 	mavenCentral()
 }
@@ -29,6 +31,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
 }
 
 tasks.named('test') {
