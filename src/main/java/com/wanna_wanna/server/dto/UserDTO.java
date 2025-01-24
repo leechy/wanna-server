@@ -1,4 +1,3 @@
-// filepath: /Users/leechy/Projects/wanna-server/src/main/java/com/wanna_wanna/server/dto/UserDTO.java
 package com.wanna_wanna.server.dto;
 
 import lombok.Data;

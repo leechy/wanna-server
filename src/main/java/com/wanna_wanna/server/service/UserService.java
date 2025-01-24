@@ -42,6 +42,13 @@ public class UserService {
         .orElse(java.util.Collections.emptySet());
   }
 
+  public UserDTO createUser(String names) {
+    WUser user = new WUser(names);
+
+    WUser savedUser = userRepository.save(user);
+    return convertToUserDTO(savedUser);
+  }
+
   private UserDTO convertToUserDTO(WUser user) {
     UserDTO userDTO = new UserDTO();
     userDTO.setUid(user.getId());

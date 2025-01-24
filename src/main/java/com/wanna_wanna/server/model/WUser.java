@@ -59,6 +59,16 @@ public class WUser {
   public WUser() {
   }
 
+  public WUser(String names) {
+    this.names = names;
+    this.notifyOnListShared = true;
+    this.notifyOnListItemsUpdate = true;
+    this.notifyOnItemStateUpdate = true;
+    this.deleted = false;
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
+
   public WUser(
       String names,
       boolean notifyOnListShared,
