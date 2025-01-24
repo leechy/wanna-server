@@ -3,12 +3,16 @@ package com.wanna_wanna.server.model;
 import java.util.UUID;
 
 import java.util.Date;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -46,6 +50,10 @@ public class WUser {
 
   @Column(name = "updated_at")
   private Date updatedAt;
+
+  @ManyToMany
+  @JoinTable(name = "user_lists", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "list_id"))
+  private Set<WList> lists;
 
   // Constructors
   public WUser() {
@@ -140,6 +148,14 @@ public class WUser {
 
   public void setUpdatedAt(Date updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public Set<WList> getLists() {
+    return lists;
+  }
+
+  public void setLists(Set<WList> lists) {
+    this.lists = lists;
   }
 
   // toString

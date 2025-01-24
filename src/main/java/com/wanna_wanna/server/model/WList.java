@@ -2,13 +2,17 @@ package com.wanna_wanna.server.model;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -55,6 +59,10 @@ public class WList {
 
   @Column(name = "updated_at")
   private Date updatedAt;
+
+  @ManyToMany(mappedBy = "lists")
+  @JsonIgnore
+  private Set<WUser> users;
 
   // Constructors
   public WList() {
@@ -173,6 +181,14 @@ public class WList {
 
   public void setUpdatedAt(Date updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public Set<WUser> getUsers() {
+    return users;
+  }
+
+  public void setUsers(Set<WUser> users) {
+    this.users = users;
   }
 
   // toString
