@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class WUser {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,10 +48,10 @@ public class User {
   private Date updatedAt;
 
   // Constructors
-  public User() {
+  public WUser() {
   }
 
-  public User(
+  public WUser(
       String names,
       boolean notifyOnListShared,
       boolean notifyOnListItemsUpdate,
@@ -132,10 +132,6 @@ public class User {
 
   public Date getCreatedAt() {
     return createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
   }
 
   public Date getUpdatedAt() {

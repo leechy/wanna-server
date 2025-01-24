@@ -1,7 +1,7 @@
 package com.wanna_wanna.server.controller;
 
-import com.wanna_wanna.server.model.WUser;
-import com.wanna_wanna.server.service.UserService;
+import com.wanna_wanna.server.model.WList;
+import com.wanna_wanna.server.service.ListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,18 +13,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/lists")
+public class ListController {
   @Autowired
-  private UserService userService;
+  private ListService listService;
 
   @GetMapping
-  public List<WUser> getAllUsers() {
-    return userService.getAllUsers();
+  public List<WList> getAllLists() {
+    return listService.getAllLists();
   }
 
-  @GetMapping("/{uid}")
-  public Optional<WUser> getUserById(@PathVariable("uid") UUID uid) {
-    return userService.getUserById(uid);
+  @GetMapping("/{id}")
+  public Optional<WList> getListById(@PathVariable("id") UUID id) {
+    return listService.getListById(id);
   }
 }
