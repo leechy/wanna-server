@@ -12,4 +12,14 @@ public class GlobalExceptionHandler {
   public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
     return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
   }
+
+  @ExceptionHandler(ItemNotFoundException.class)
+  public ResponseEntity<String> handleItemNotFoundException(ItemNotFoundException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(ListItemNotFoundException.class)
+  public ResponseEntity<String> handleListItemNotFoundException(ListItemNotFoundException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+  }
 }
