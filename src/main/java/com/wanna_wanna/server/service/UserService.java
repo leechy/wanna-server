@@ -1,5 +1,6 @@
 package com.wanna_wanna.server.service;
 
+import com.wanna_wanna.server.dto.UpdateUserRequest;
 import com.wanna_wanna.server.dto.UserDTO;
 import com.wanna_wanna.server.dto.UserWithListsDTO;
 import com.wanna_wanna.server.exception.UserNotFoundException;
@@ -8,6 +9,7 @@ import com.wanna_wanna.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -47,6 +49,35 @@ public class UserService {
 
     WUser savedUser = userRepository.save(user);
     return convertToUserDTO(savedUser);
+  }
+
+  public UserDTO updateUser(UUID uid, UpdateUserRequest request) {
+    WUser user = userRepository.findById(uid)
+        .orElseThrow(() -> new UserNotFoundException("User not found with id: " + uid));
+
+    if (request.getNames() != null) {
+      user.setNames(request.getNames());
+    }
+    if (request.getNotifyOnListShared() != null) {
+      user.setNotifyOnListShared(request.getNotifyOnListShared());
+    }
+    if (request.getNotifyOnListItemsUpdate() != null) {
+      user.setNotifyOnListItemsUpdate(request.getNotifyOnListItemsUpdate());
+    }
+    if (request.getNotifyOnItemStateUpdate() != null) {
+      user.setNotifyOnItemStateUpdate(request.getNotifyOnItemStateUpdate());
+    }
+    if (request.getExpoPushToken() != null) {
+      user.setExpoPushToken(request.getExpoPushToken());
+    }
+    if (request.getDevicePushToken() != null) {
+      user.setDevicePushToken(request.getDevicePushToken());
+    }
+
+    user.setUpdatedAt(new Date());
+
+    WUser updatedUser = userRepository.save(user);
+    return convertToUserDTO(updatedUser);
   }
 
   private UserDTO convertToUserDTO(WUser user) {

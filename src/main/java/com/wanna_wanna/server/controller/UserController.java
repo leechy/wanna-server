@@ -1,11 +1,13 @@
 package com.wanna_wanna.server.controller;
 
 import com.wanna_wanna.server.dto.CreateUserRequest;
+import com.wanna_wanna.server.dto.UpdateUserRequest;
 import com.wanna_wanna.server.dto.UserDTO;
 import com.wanna_wanna.server.dto.UserWithListsDTO;
 import com.wanna_wanna.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +38,13 @@ public class UserController {
   @GetMapping("/{uid}")
   public Optional<UserDTO> getUserById(@PathVariable("uid") UUID uid) {
     return userService.getUserById(uid);
+  }
+
+  @PatchMapping("/{uid}")
+  public UserDTO updateUser(
+      @PathVariable("uid") UUID uid,
+      @RequestBody UpdateUserRequest request) {
+    return userService.updateUser(uid, request);
   }
 
   @GetMapping("/{uid}/lists")
