@@ -99,6 +99,10 @@ public class WList {
     return shareId;
   }
 
+  public void setShareId(UUID shareId) {
+    this.shareId = shareId;
+  }
+
   public String getName() {
     return name;
   }
@@ -173,6 +177,10 @@ public class WList {
 
   public Date getCreatedAt() {
     return createdAt;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
   }
 
   public Date getUpdatedAt() {
