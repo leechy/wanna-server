@@ -1,6 +1,7 @@
 package com.wanna_wanna.server.service;
 
 import com.wanna_wanna.server.dto.CreateListRequest;
+import com.wanna_wanna.server.dto.ListWithUsersDTO;
 import com.wanna_wanna.server.dto.UpdateListRequest;
 import com.wanna_wanna.server.exception.ListNotFoundException;
 import com.wanna_wanna.server.exception.UserNotFoundException;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ListService {
@@ -23,6 +25,9 @@ public class ListService {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private UserService userService;
 
   public List<WList> getAllLists() {
     return listRepository.findAll();
@@ -88,5 +93,46 @@ public class ListService {
 
     list.setUpdatedAt(new Date());
     return listRepository.save(list);
+  }
+
+  public ListWithUsersDTO getListByShareId(UUID shareId) {
+    WList list = listRepository.findByShareId(shareId)
+        .orElseThrow(() -> new ListNotFoundException("List with shareId: " + shareId + " not found!"));
+
+    return convertToListWithUsersDTO(list);
+  }
+
+  public ListWithUsersDTO joinList(UUID shareId, UUID userId) {
+    WList list = listRepository.findByShareId(shareId)
+        .orElseThrow(() -> new ListNotFoundException("List with shareId: " + shareId + " not found!"));
+
+    WUser user = userRepository.findById(userId)
+        .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " not found!"));
+
+    // Check if user is already in the list
+    if (user.getLists().contains(list)) {
+      return convertToListWithUsersDTO(list);
+    }
+
+    // Add list to user's lists
+    user.getLists().add(list);
+    userRepository.save(user);
+
+    return convertToListWithUsersDTO(list);
+  }
+
+  private ListWithUsersDTO convertToListWithUsersDTO(WList list) {
+    ListWithUsersDTO dto = new ListWithUsersDTO();
+    dto.setId(list.getId());
+    dto.setName(list.getName());
+    dto.setShareId(list.getShareId());
+    dto.setType(list.getType());
+    dto.setDeadline(list.getDeadline());
+    dto.setCreatedAt(list.getCreatedAt());
+    dto.setUpdatedAt(list.getUpdatedAt());
+    dto.setUsers(list.getUsers().stream()
+        .map(userService::convertToSimpleUserDTO)
+        .collect(Collectors.toSet()));
+    return dto;
   }
 }

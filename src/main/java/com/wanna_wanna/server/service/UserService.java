@@ -1,5 +1,6 @@
 package com.wanna_wanna.server.service;
 
+import com.wanna_wanna.server.dto.SimpleUserDTO;
 import com.wanna_wanna.server.dto.UpdateUserRequest;
 import com.wanna_wanna.server.dto.UserDTO;
 import com.wanna_wanna.server.dto.UserWithListsDTO;
@@ -80,7 +81,7 @@ public class UserService {
     return convertToUserDTO(updatedUser);
   }
 
-  private UserDTO convertToUserDTO(WUser user) {
+  public UserDTO convertToUserDTO(WUser user) {
     UserDTO userDTO = new UserDTO();
     userDTO.setUid(user.getId());
     userDTO.setNames(user.getNames());
@@ -108,6 +109,13 @@ public class UserService {
     userDTO.setCreatedAt(user.getCreatedAt());
     userDTO.setUpdatedAt(user.getUpdatedAt());
     userDTO.setLists(user.getLists());
+    return userDTO;
+  }
+
+  public SimpleUserDTO convertToSimpleUserDTO(WUser user) {
+    SimpleUserDTO userDTO = new SimpleUserDTO();
+    userDTO.setUid(user.getId());
+    userDTO.setNames(user.getNames());
     return userDTO;
   }
 }

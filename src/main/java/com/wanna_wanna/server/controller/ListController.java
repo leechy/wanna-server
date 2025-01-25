@@ -1,6 +1,8 @@
 package com.wanna_wanna.server.controller;
 
 import com.wanna_wanna.server.dto.CreateListRequest;
+import com.wanna_wanna.server.dto.JoinListRequest;
+import com.wanna_wanna.server.dto.ListWithUsersDTO;
 import com.wanna_wanna.server.dto.UpdateListRequest;
 import com.wanna_wanna.server.model.WList;
 import com.wanna_wanna.server.service.ListService;
@@ -43,5 +45,17 @@ public class ListController {
       @PathVariable("id") UUID id,
       @RequestBody UpdateListRequest request) {
     return listService.updateList(id, request);
+  }
+
+  @GetMapping("/join/{shareId}")
+  public ListWithUsersDTO getListByShareId(@PathVariable("shareId") UUID shareId) {
+    return listService.getListByShareId(shareId);
+  }
+
+  @PostMapping("/join/{shareId}")
+  public ListWithUsersDTO joinList(
+      @PathVariable("shareId") UUID shareId,
+      @RequestBody JoinListRequest request) {
+    return listService.joinList(shareId, request.getUid());
   }
 }
