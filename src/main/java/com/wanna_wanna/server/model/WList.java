@@ -20,8 +20,8 @@ import jakarta.persistence.Table;
 public class WList {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "list_id")
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(name = "list_id", updatable = false, nullable = false)
   private UUID id;
 
   @Column(name = "share_id")

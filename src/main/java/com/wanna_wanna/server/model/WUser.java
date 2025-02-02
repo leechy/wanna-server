@@ -2,6 +2,8 @@ package com.wanna_wanna.server.model;
 
 import java.util.UUID;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -20,8 +22,8 @@ import jakarta.persistence.Table;
 public class WUser {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "uid")
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(name = "uid", updatable = false, nullable = false)
   private UUID uid;
 
   @Column(name = "names")

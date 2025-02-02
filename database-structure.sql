@@ -6,8 +6,6 @@ CREATE DATABASE wannawanna
     TEMPLATE = template1
     ENCODING = 'UTF8'
     STRATEGY = 'wal_log'
-    LC_COLLATE = 'C'
-    LC_CTYPE = 'C'
     LOCALE_PROVIDER = 'libc'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
@@ -92,8 +90,13 @@ CREATE TABLE public.user_lists
     created_at timestamp with time zone NOT NULL DEFAULT now(),
     updated_at timestamp with time zone NOT NULL DEFAULT now(),
     PRIMARY KEY (user_lists_id),
-    CONSTRAINT "Link to the user and the list" FOREIGN KEY (uid, list_id)
-        REFERENCES public.users (uid, list_id) MATCH SIMPLE
+    FOREIGN KEY (uid)
+        REFERENCES public.users (uid) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID,
+    FOREIGN KEY (list_id)
+        REFERENCES public.lists (list_id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
         NOT VALID

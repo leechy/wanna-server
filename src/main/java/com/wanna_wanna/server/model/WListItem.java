@@ -10,8 +10,8 @@ import java.util.UUID;
 @Data
 public class WListItem {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "list_items_id")
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(name = "list_items_id", updatable = false, nullable = false)
   private UUID id;
 
   private String name;
